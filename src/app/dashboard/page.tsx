@@ -4,6 +4,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const DashboardPage: React.FC = () => {
   const { user, isAuthenticated, isAdmin, logout, isLoading } = useAuth();
@@ -72,6 +73,12 @@ const DashboardPage: React.FC = () => {
                   <p className="text-xs text-gray-500">{user?.email}</p>
                 </div>
               </div>
+              <Link
+                href="/profile"
+                className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Profile
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"

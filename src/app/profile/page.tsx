@@ -159,41 +159,43 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Header */}
-      <header className="bg-white shadow">
+      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-4">
               <Link
                 href="/dashboard"
-                className="text-gray-500 hover:text-gray-700"
+                className="group flex items-center space-x-2 text-gray-500 hover:text-blue-600 transition-colors duration-200"
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <div className="p-2 rounded-lg bg-gray-100 group-hover:bg-blue-100 transition-colors duration-200">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </div>
+                <span className="font-medium">Back to Dashboard</span>
               </Link>
-              <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm border border-gray-200/50">
                 <div className="flex-shrink-0">
                   {user.profilePicture ? (
                     <img
-                      className="h-8 w-8 rounded-full"
+                      className="h-10 w-10 rounded-full ring-2 ring-white shadow-md"
                       src={user.profilePicture}
                       alt={user.firstName}
                     />
                   ) : (
-                    <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-sm font-medium text-white">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
+                      <span className="text-sm font-bold text-white">
                         {user.firstName?.charAt(0)?.toUpperCase() || 'A'}
                       </span>
                     </div>
                   )}
                 </div>
                 <div className="hidden md:block">
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-sm font-semibold text-gray-800">
                     {user.firstName} {user.lastName}
                   </p>
                   <p className="text-xs text-gray-500">{user.email}</p>
@@ -205,20 +207,68 @@ const ProfilePage: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className="max-w-6xl mx-auto py-8 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Personal Information
-                </h3>
+          {/* Profile Header Card */}
+          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl shadow-2xl mb-8 overflow-hidden">
+            <div className="px-8 py-12">
+              <div className="flex items-center space-x-6">
+                <div className="relative">
+                  {user.profilePicture ? (
+                    <img
+                      className="h-24 w-24 rounded-full ring-4 ring-white/30 shadow-xl"
+                      src={user.profilePicture}
+                      alt={user.firstName}
+                    />
+                  ) : (
+                    <div className="h-24 w-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-xl ring-4 ring-white/30">
+                      <span className="text-3xl font-bold text-white">
+                        {user.firstName?.charAt(0)?.toUpperCase() || 'A'}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute -bottom-2 -right-2 bg-green-500 rounded-full p-2 shadow-lg">
+                    <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="text-white">
+                  <h1 className="text-3xl font-bold mb-2">{user.firstName} {user.lastName}</h1>
+                  <p className="text-blue-100 text-lg mb-1">{user.email}</p>
+                  <div className="flex items-center space-x-4">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/20 text-white">
+                      <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
+                      {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    </span>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      user.isActive ? 'bg-green-500/30 text-green-100' : 'bg-red-500/30 text-red-100'
+                    }`}>
+                      <div className={`h-2 w-2 rounded-full mr-2 ${user.isActive ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                      {user.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Profile Card */}
+          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border border-gray-200/50 overflow-hidden">
+            <div className="px-8 py-8">
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Information</h2>
+                  <p className="text-gray-600">Manage your personal and account details</p>
+                </div>
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="group inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
-                    <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                     Edit Profile
@@ -226,52 +276,96 @@ const ProfilePage: React.FC = () => {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                 {/* First Name */}
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                    First Name
+                <div className="group">
+                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span>First Name</span>
+                    </div>
                   </label>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      name="firstName"
-                      id="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className={`mt-1 block w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                        errors.firstName ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="firstName"
+                        id="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
+                          errors.firstName 
+                            ? 'border-red-300 focus:border-red-500' 
+                            : 'border-gray-200 focus:border-blue-500 hover:border-gray-300'
+                        }`}
+                        placeholder="Enter your first name"
+                      />
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    </div>
                   ) : (
-                    <p className="mt-1 text-sm text-gray-900">{user.firstName}</p>
+                    <div className="mt-1 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                      <p className="text-gray-900 font-medium">{user.firstName}</p>
+                    </div>
                   )}
                   {errors.firstName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+                    <div className="mt-2 flex items-center space-x-2 text-red-600">
+                      <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      <p className="text-sm">{errors.firstName}</p>
+                    </div>
                   )}
                 </div>
 
                 {/* Last Name */}
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                    Last Name
+                <div className="group">
+                  <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span>Last Name</span>
+                    </div>
                   </label>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className={`mt-1 block w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                        errors.lastName ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="lastName"
+                        id="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 bg-white/50 backdrop-blur-sm ${
+                          errors.lastName 
+                            ? 'border-red-300 focus:border-red-500' 
+                            : 'border-gray-200 focus:border-blue-500 hover:border-gray-300'
+                        }`}
+                        placeholder="Enter your last name"
+                      />
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    </div>
                   ) : (
-                    <p className="mt-1 text-sm text-gray-900">{user.lastName}</p>
+                    <div className="mt-1 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                      <p className="text-gray-900 font-medium">{user.lastName}</p>
+                    </div>
                   )}
                   {errors.lastName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
+                    <div className="mt-2 flex items-center space-x-2 text-red-600">
+                      <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      <p className="text-sm">{errors.lastName}</p>
+                    </div>
                   )}
                 </div>
 
@@ -527,30 +621,38 @@ const ProfilePage: React.FC = () => {
 
               {/* Action Buttons */}
               {isEditing && (
-                <div className="mt-8 flex justify-end space-x-3">
+                <div className="mt-12 flex justify-end space-x-4">
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="group inline-flex items-center px-6 py-3 border-2 border-gray-300 text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-500/20 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
+                    <svg className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                     Cancel
                   </button>
                   <button
                     type="button"
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="group inline-flex items-center px-8 py-3 border-2 border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-4 focus:ring-green-500/20 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
                     {isSaving ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Saving...
+                        Saving Changes...
                       </>
                     ) : (
-                      'Save Changes'
+                      <>
+                        <svg className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Save Changes
+                      </>
                     )}
                   </button>
                 </div>
